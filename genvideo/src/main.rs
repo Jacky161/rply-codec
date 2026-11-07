@@ -191,18 +191,17 @@ impl AudioState {
         let mut audio_params = ffmpeg_next::codec::Parameters::new();
         unsafe {
             let aps = audio_params.as_mut_ptr();
+            ffmpeg_next::ffi::av_channel_layout_default(&mut (*aps).ch_layout,2);
             (*aps).codec_id = out_audio_codec.id().into();
             (*aps).codec_type = ffmpeg_next::ffi::AVMediaType::AVMEDIA_TYPE_AUDIO;
             (*aps).sample_rate = 48000;
             (*aps).frame_size = 1024;
-            (*aps).channels = 2;
         };
         out_audio_ctx.set_parameters(audio_params).unwrap();
         let _out_audio = output.add_stream_with(&out_audio_ctx).unwrap();
         let encoded_audio = ffmpeg_next::Packet::empty();
         let audio_time_base = Rational::new(1, 48000);
         let mut out_audio_enc = out_audio_ctx.encoder().audio().unwrap();
-        out_audio_enc.set_channels(2);
         out_audio_enc.set_format(ffmpeg_next::format::Sample::F32(
             ffmpeg_next::format::sample::Type::Planar,
         ));
