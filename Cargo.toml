@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["codec", "dump", "reencode", "upgradev0", "genvideo"]
+members = ["codec", "dump", "reencode", "upgradev0", "genvideo", "trim"]
 
 [workspace.package]
 version = "0.1.3"
