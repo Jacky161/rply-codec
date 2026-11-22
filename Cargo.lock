@@ -676,9 +676,9 @@ checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
 
 [[package]]
 name = "retro-rs"
-version = "0.6.0"
+version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79db8205c89fc48e989ac16ff929833e21566eacdf9b69e9ddf7d55cd03ff6cf"
+checksum = "57e5785a63919b917e90614d0a8b5b0a9abb130635ec48ff0853e88cf2bbd866"
 dependencies = [
  "cc",
  "euclid",
@@ -799,7 +799,6 @@ dependencies = [
  "wayland-sys",
  "winapi",
  "wio",
- "x11-dl",
 ]
 
 [[package]]
@@ -837,6 +836,7 @@ dependencies = [
 name = "trim"
 version = "0.1.0"
 dependencies = [
+ "retro-rs",
  "rply-codec",
 ]
 
@@ -983,17 +983,6 @@ name = "wit-bindgen"
 version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59"
-
-[[package]]
-name = "x11-dl"
-version = "2.21.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38735924fedd5314a6e548792904ed8c6de6636285cb9fec04d5b1db85c1516f"
-dependencies = [
- "libc",
- "once_cell",
- "pkg-config",
-]
 
 [[package]]
 name = "xml-rs"
