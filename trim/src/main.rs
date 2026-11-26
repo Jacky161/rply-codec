@@ -6,8 +6,11 @@ use rply_codec::{Counter, Frame, Timer, counts, decode, encode, stats};
 fn main() {
     let args: Vec<_> = std::env::args().collect();
 
-    let file =
-        std::fs::File::open(args.get(1).unwrap_or(&"examples/bobl_new.replay".to_string())).unwrap();
+    let file = std::fs::File::open(
+        args.get(1)
+            .unwrap_or(&"examples/bobl_new.replay".to_string()),
+    )
+    .unwrap();
     let outfile = std::fs::File::create(
         args.get(2)
             .unwrap_or(&"examples/bobl_new_trim.replay".to_string()),
@@ -22,7 +25,7 @@ fn main() {
         .get(6)
         .unwrap_or(&"cores/fceumm_libretro.x86_64.so".to_string())
         .clone();
-    let mut emu = Emulator::create(Path::new(&corefile), Path::new(&romfile));
+    let mut emu = Emulator::create_with_gfx(Path::new(&corefile), Path::new(&romfile), Box::new(retro_rs::GlGfx::default()));
 
     let file = std::io::BufReader::new(file);
     let mut outfile = std::io::BufWriter::new(outfile);
@@ -60,15 +63,9 @@ fn main() {
                 exit(1);
             };
 
-            println!(
-                " {}{:08}",
-                if frame.checkpoint_bytes.is_empty() {
-                    " "
-                } else {
-                    "*"
-                },
-                rply.frame_number,
-            );
+            if !frame.checkpoint_bytes.is_empty() {
+                println!(" *{:08}", rply.frame_number,);
+            }
 
             // Run emulator
             let buttons = frame_to_buttons(&frame);
@@ -94,16 +91,16 @@ fn main() {
         .read_frame(&mut frame)
         .inspect_err(|e| println!("Err: {e}"))
     {
-        println!(
-            " {}{:08} {}",
-            if frame.checkpoint_bytes.is_empty() {
-                " "
-            } else {
-                "*"
-            },
-            rply.frame_number,
-            frame.inputs(),
-        );
+        // println!(
+        //     " {}{:08} {}",
+        //     if frame.checkpoint_bytes.is_empty() {
+        //         " "
+        //     } else {
+        //         "*"
+        //     },
+        //     rply.frame_number,
+        //     frame.inputs(),
+        // );
 
         // TODO run libretro core here, maybe serialize into frame.checkpoint_bytes
         // TODO maybe get screenshot or add to video
